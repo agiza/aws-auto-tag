@@ -1,0 +1,194 @@
+{
+    "eventVersion": "1.05",
+    "userIdentity": {
+        "type": "Root",
+        "principalId": "364771791306",
+        "arn": "arn:aws:iam::364771791306:root",
+        "accountId": "364771791306",
+        "accessKeyId": "ASIAIQ66SFA4LLEN2FNQ",
+        "userName": "grkoffi",
+        "sessionContext": {
+            "attributes": {
+                "mfaAuthenticated": "true",
+                "creationDate": "2016-09-22T08:15:17Z"
+            }
+        }
+    },
+    "eventTime": "2016-09-22T14:10:23Z",
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "RunInstances",
+    "awsRegion": "eu-west-1",
+    "sourceIPAddress": "171.18.12.1",
+    "userAgent": "console.ec2.amazonaws.com",
+    "requestParameters": {
+        "instancesSet": {
+            "items": [
+                {
+                    "imageId": "ami-eb018598",
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "keyName": "grk-us-west-1"
+                }
+            ]
+        },
+        "userData": "<sensitiveDataRemoved>",
+        "instanceType": "t2.micro",
+        "blockDeviceMapping": {
+            "items": [
+                {
+                    "deviceName": "/dev/sda1",
+                    "ebs": {
+                        "volumeSize": 8,
+                        "deleteOnTermination": true,
+                        "volumeType": "gp2"
+                    }
+                },
+                {
+                    "deviceName": "/dev/sdb",
+                    "noDevice": {}
+                },
+                {
+                    "deviceName": "/dev/sdc",
+                    "noDevice": {}
+                }
+            ]
+        },
+        "availabilityZone": "eu-west-1a",
+        "tenancy": "default",
+        "monitoring": {
+            "enabled": false
+        },
+        "disableApiTermination": false,
+        "clientToken": "NNabA1474553422687",
+        "networkInterfaceSet": {
+            "items": [
+                {
+                    "deviceIndex": 0,
+                    "subnetId": "subnet-ed0e6489",
+                    "description": "Primary network interface",
+                    "deleteOnTermination": true,
+                    "associatePublicIpAddress": true,
+                    "groupSet": {
+                        "items": [
+                            {
+                                "groupId": "sg-7ceff51b"
+                            },
+                            {
+                                "groupId": "sg-7feff518"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "ebsOptimized": false
+    },
+    "responseElements": {
+        "requestId": "54aa5202-a359-4f8e-916a-4668b3d21cba",
+        "reservationId": "r-0ec40b4f6b029d974",
+        "ownerId": "364771791306",
+        "groupSet": {},
+        "instancesSet": {
+            "items": [
+                {
+                    "instanceId": "i-054edec49fd52b3dd",
+                    "imageId": "ami-eb018598",
+                    "instanceState": {
+                        "code": 0,
+                        "name": "pending"
+                    },
+                    "privateDnsName": "ip-10-242-0-26.eu-west-1.compute.internal",
+                    "keyName": "grk-us-west-1",
+                    "amiLaunchIndex": 0,
+                    "productCodes": {},
+                    "instanceType": "t2.micro",
+                    "launchTime": 1474553423000,
+                    "placement": {
+                        "availabilityZone": "eu-west-1a",
+                        "tenancy": "default"
+                    },
+                    "monitoring": {
+                        "state": "disabled"
+                    },
+                    "subnetId": "subnet-ed0e6489",
+                    "vpcId": "vpc-792da61d",
+                    "privateIpAddress": "10.242.0.26",
+                    "stateReason": {
+                        "code": "pending",
+                        "message": "pending"
+                    },
+                    "architecture": "x86_64",
+                    "rootDeviceType": "ebs",
+                    "rootDeviceName": "/dev/sda1",
+                    "blockDeviceMapping": {},
+                    "virtualizationType": "hvm",
+                    "hypervisor": "xen",
+                    "clientToken": "NNabA1474553422687",
+                    "groupSet": {
+                        "items": [
+                            {
+                                "groupId": "sg-7ceff51b",
+                                "groupName": "sg_saltmaster"
+                            },
+                            {
+                                "groupId": "sg-7feff518",
+                                "groupName": "sg_admin"
+                            }
+                        ]
+                    },
+                    "sourceDestCheck": true,
+                    "networkInterfaceSet": {
+                        "items": [
+                            {
+                                "networkInterfaceId": "eni-b5f008cf",
+                                "subnetId": "subnet-ed0e6489",
+                                "vpcId": "vpc-792da61d",
+                                "description": "Primary network interface",
+                                "ownerId": "364771791306",
+                                "status": "in-use",
+                                "macAddress": "02:b9:be:c2:e5:07",
+                                "privateIpAddress": "10.242.0.26",
+                                "privateDnsName": "ip-10-242-0-26.eu-west-1.compute.internal",
+                                "sourceDestCheck": true,
+                                "groupSet": {
+                                    "items": [
+                                        {
+                                            "groupId": "sg-7ceff51b",
+                                            "groupName": "sg_saltmaster"
+                                        },
+                                        {
+                                            "groupId": "sg-7feff518",
+                                            "groupName": "sg_admin"
+                                        }
+                                    ]
+                                },
+                                "attachment": {
+                                    "attachmentId": "eni-attach-6151f5dd",
+                                    "deviceIndex": 0,
+                                    "status": "attaching",
+                                    "attachTime": 1474553423000,
+                                    "deleteOnTermination": true
+                                },
+                                "privateIpAddressesSet": {
+                                    "item": [
+                                        {
+                                            "privateIpAddress": "10.242.0.26",
+                                            "privateDnsName": "ip-10-242-0-26.eu-west-1.compute.internal",
+                                            "primary": true
+                                        }
+                                    ]
+                                },
+                                "tagSet": {}
+                            }
+                        ]
+                    },
+                    "ebsOptimized": false
+                }
+            ]
+        }
+    },
+    "requestID": "54aa5202-a359-4f8e-916a-4668b3d21cba",
+    "eventID": "c4f4a461-5101-4f4c-85cb-82c85ba7098e",
+    "eventType": "AwsApiCall",
+    "recipientAccountId": "364771791306"
+}

@@ -1,0 +1,52 @@
+{
+    "eventVersion": "1.04",
+    "userIdentity": {
+        "type": "AssumedRole",
+        "principalId": "AROAIXGD3BAFAHEFUL2SI:configLambdaExecution",
+        "arn": "arn:aws:sts::364771791306:assumed-role/config-role-eu-west-1/configLambdaExecution",
+        "accountId": "364771791306",
+        "accessKeyId": "ASIAJEX27AH4MCQLIFEA",
+        "sessionContext": {
+            "attributes": {
+                "mfaAuthenticated": "false",
+                "creationDate": "2016-09-23T12:30:56Z"
+            },
+            "sessionIssuer": {
+                "type": "Role",
+                "principalId": "AROAIXGD3BAFAHEFUL2SI",
+                "arn": "arn:aws:iam::364771791306:role/service-role/config-role-eu-west-1",
+                "accountId": "364771791306",
+                "userName": "config-role-eu-west-1"
+            }
+        },
+        "invokedBy": "lambda.amazonaws.com"
+    },
+    "eventTime": "2016-09-23T12:30:56Z",
+    "eventSource": "config.amazonaws.com",
+    "eventName": "PutEvaluations",
+    "awsRegion": "eu-west-1",
+    "sourceIPAddress": "lambda.amazonaws.com",
+    "userAgent": "lambda.amazonaws.com",
+    "requestParameters": {
+        "resultToken": "eyJlbmNyeXB0ZWREYXRhIjpbMzcsLTEyMiwxMDAsNDYsLTg3LDM5LDUyLDE1LDEwNSwtMzksLTEyLC0xMjEsLTcwLC0xMiwxMTQsLTM0LDQxLC02OSw1NywtODcsNzQsMTA2LC0zNCw0OSwtMTYsLTQsLTMyLC04MSwtMywxMDcsLTE0LDg3LDMxLC00OCwxMjIsLTExMCwxMDEsLTksMCwtODgsMTksLTExNSwtMzQsLTM3LC0xMTcsMTAzLC00NSwtMTUsOTUsNDYsNCw3Myw0NywtMjksNiwtNywtNzksLTE4LDAsLTExNiwzOCwtMTE4LC0zMiwxMjYsLTExLDEsMzQsNDQsNTcsLTgyLDU5LDcyLC00NywtMTAsNDUsMTA2LDY2LC0yMywxMTEsLTE1LC0xMDYsOSwtNTEsMTA5LDY0LC0xNywtMTUsLTU3LDEwNywtNzMsLTQxLC01MCwxLDQ0LC0xMjMsLTEwOCwxNiwxMTAsMTE1LC0xMDUsLTQ2LDU2LDEyMSwxMDcsODEsNzUsLTIzLC0yNywyLDEyMSwtMjcsOTYsMTcsLTEyMywxMDMsLTMyLDgyLC0xOCw0OCwtMzgsMTIzLC0yNiwtMTksOSwtMjYsLTkwLC00MywxMiwtOTMsLTc0LC0xMTMsLTEwLDksLTQ2LDEyLDEwNywxMjcsMzIsLTU2LC03NSw2NCwtOTYsLTY2LDI3LDEwMCwtMTAyLC0xMTQsLTExLDUxLC03NywtMTUsMTA4LC0yNyw4NCw0NSwtOTcsLTk0LDMxLDkxLDI5LC04Nyw5NywxMTIsLTQyLC0yNCw0NSwtNzksNTQsLTUyLC0zMCw1OSw5MywtNTUsNjksLTcsNzAsLTEwMSwtMywyMCwtOTcsMjIsODIsLTk4LDEyMiwtMTksLTk0LC05MSwtMTksLTEsMTA4LDEwMSwtNTgsMTI0LDc5LDk1LC00NiwtMTE1LC0xMCwtNTAsLTcwLDExMiwtNjcsLTUwLDc2LDMsLTEyMCwtODcsLTEwOSw2MSwtMTIyLDU5LC02LC0yMywtMTA0LC0zMSwyMSw0NCwtMjgsLTksLTE2LC00LC04OSwtMTAyLDI4LC0xMjEsNTAsNDgsMTI1LDcwLC0xMTUsLTEwOCw4OCwtOTIsMzAsNDksLTgyLC01NywxMTcsLTE2LC0xMDcsLTExMiwtMzgsLTQxLDM1LC00MCwtMTAzLDExNywtNywtODcsLTY0LC0yLC0xMjgsLTY2LC04MCwtMTE5LDg0LDEyMCwxOSwxMCwtMTAsLTExOCwxMSwxMTIsMzcsMTE4LDksLTEyLC0yOCwtMTIsMTE3LC0xNCw1OSw4LDkyLDM2LDEyNCw5MiwtOTgsLTExOSwxMTAsLTU4LC0xMjgsLTgzLC03OCwxOCwtNDMsLTE5LDE4LC03Myw1Myw3MiwtOTcsNiwtMTIwLDMyLDQ0LDEwNiwxLC00NSwxMjYsLTg4LC04NSwtMjgsLTE3LDExOCwtMTI4LDYsLTksMjUsLTIxLC0zMSwtNCwxMTAsNDEsLTc2LC0xMDksLTEyNCwtNDgsLTQyLDI1LC01NywtNDIsLTY0LC01OSw0Miw4NSw4MywyMSw2Myw1NiwtMTgsLTEyNiwtMjIsLTM4LC0yMSw1MCwtMTgsLTMyLDk4LDUyLC0yOSwzOCw0OSwtMzksLTcwLDEyNCw3OSwtNDIsNTQsMTAyLDM1XSwibWF0ZXJpYWxTZXRTZXJpYWxOdW1iZXIiOjEsIml2UGFyYW1ldGVyU3BlYyI6eyJpdiI6Wy0xLDU1LC03NCwtMTAyLDk5LDcwLC0xNCwtMTUsNTMsLTc4LC04NSwtODIsLTM3LDQsLTQ0LC0xMTddfX0=",
+        "evaluations": [
+            {
+                "orderingTimestamp": "Sep 22, 2016 3:21:19 PM",
+                "complianceResourceType": "AWS::EC2::Volume",
+                "complianceResourceId": "vol-a3af5521",
+                "complianceType": "NOT_APPLICABLE"
+            }
+        ]
+    },
+    "responseElements": {
+        "failedEvaluations": []
+    },
+    "additionalEventData": {
+        "configRuleName": "encrypted-volumes",
+        "configRuleArn": "arn:aws:config:eu-west-1:364771791306:config-rule/config-rule-5meacs"
+    },
+    "requestID": "933c64af-8189-11e6-bdbc-b961875649ad",
+    "eventID": "162833d1-b266-4779-b0ee-af52715bf172",
+    "eventType": "AwsApiCall",
+    "recipientAccountId": "364771791306"
+}

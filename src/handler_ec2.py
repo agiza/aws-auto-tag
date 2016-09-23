@@ -21,7 +21,9 @@ def lambda_handler(event, context):
 
     print("cloudtrail event: ", cloudtrail_log)
 
-    events = filter_events(cloudtrail_log, CLOUDTRAIL_EVENT_NAME)
+    events = filter_events(
+        cloudtrail_log.get("Records", []), CLOUDTRAIL_EVENT_NAME
+    )
     if not events:
         print("No event matching '{}', exiting".format(CLOUDTRAIL_EVENT_NAME))
         return
@@ -50,15 +52,23 @@ def get_s3_object(bucket, key):
 
     download_path = '/tmp/{}'.format(uuid.uuid4())
     s3.download_file(bucket, key, download_path)
-    file_content = ""
-    with open(download_path) as f:
-        file_content = f.read()
 
-    return get_human_readable_json(file_content)
+    return get_human_readable_json(download_path)
 
 
-def get_human_readable_json(data):
-    """ Decompress gzip compressed raw data and return json"""
+def get_human_readable_json(s3_file):
+    """ Decompress gzip compressed s3 file and return json"""
+
+    data = None
+    if not s3_file:
+        return None
+
+    try:
+        with open(s3_file) as f:
+            data = f.read()
+    except IOError as e:
+        print("Error: unable to open file [{}]".format(e))
+        return None
 
     data = zlib.decompress(data, 16+zlib.MAX_WBITS)
     json_format = None
@@ -74,8 +84,9 @@ def get_human_readable_json(data):
 def filter_events(cloudtrail_records, event_name):
     """ Look for the right event and find the right resources"""
     filtered_events = []
+    cloudtrail_records = cloudtrail_records or []
 
-    for record in cloudtrail_records.get("Records", []):
+    for record in cloudtrail_records:
         if record.get("eventName", "") == event_name:
             filtered_events.append(record)
 
@@ -104,6 +115,8 @@ def apply_ec2_tagging(cloudtrail_events):
 def tag_instances(requested_instances, stack_owner, stack_owner_arn):
     """ Apply the tag to the EC2 instance """
 
+    requested_instances = requested_instances or []
+
     tagged_resources_count = 0
     ec2 = boto3.client('ec2')
     instances_ids = []
@@ -113,6 +126,9 @@ def tag_instances(requested_instances, stack_owner, stack_owner_arn):
         instances_ids.append(instance_id)
         tagged_resources_count += 1
         print("instance_id: ", instance_id)
+
+    if not tagged_resources_count:
+        return tagged_resources_count
 
     ec2.create_tags(
         Resources=instances_ids,
