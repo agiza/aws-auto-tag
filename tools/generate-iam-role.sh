@@ -10,7 +10,7 @@
 
 iam_account=${1:-''}
 region=${2:-''}
-iam_role_path=${3:-'./terraform/files/iam-role-ec2-lambda.json'}
+iam_role_path=${3:-'./saltstack/iam-role-ec2-lambda.json'}
 
 
 cat > ${iam_role_path} << EOF
