@@ -1,0 +1,7 @@
+boto
+boto3
+codecov
+moto
+pytest
+pytest-pep8
+pytest-cov
