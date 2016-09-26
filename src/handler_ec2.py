@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import boto3
+import botocore
 import uuid
 import zlib
 import json
@@ -15,8 +16,14 @@ def lambda_handler(event, context):
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
-    cloudtrail_log = get_s3_object(bucket, key)
+    cloudtrail_file = get_s3_file(bucket, key)
+    if not cloudtrail_file:
+        print("Error: Unable to get cloudtrail event log file")
+        return
+
+    cloudtrail_log = get_human_readable_json(cloudtrail_file)
     if not cloudtrail_log:
+        print("Error: cloudtrail json parsing failed")
         return
 
     print("cloudtrail event: ", cloudtrail_log)
@@ -28,17 +35,29 @@ def lambda_handler(event, context):
         print("No event matching '{}', exiting".format(CLOUDTRAIL_EVENT_NAME))
         return
 
-    count = apply_ec2_tagging(events)
+    payload = filter_ec2_instances(events)
+    if not payload:
+        print("No instances found in event")
+        return
+
+    count = tag_instances(payload)
+
     print("Sucessfully tagged {} resources".format(count))
 
 
-def get_s3_object(bucket, key):
-    """ Verify and get the content of the s3 file """
+def get_s3_file(bucket, key, max_attempts=5):
+    """ download the cloudtrail's s3 file and returns its location """
 
     s3 = boto3.client('s3')
 
     waiter = s3.get_waiter('object_exists')
-    waiter.wait(Bucket=bucket, Key=key)
+    waiter.config.max_attempts = max_attempts
+
+    try:
+        waiter.wait(Bucket=bucket, Key=key)
+    except botocore.exceptions.WaiterError:
+        print("Object '{}/{}' does not exists".format(bucket, key))
+        return
 
     response = s3.head_object(Bucket=bucket, Key=key)
     if not response:
@@ -53,7 +72,7 @@ def get_s3_object(bucket, key):
     download_path = '/tmp/{}'.format(uuid.uuid4())
     s3.download_file(bucket, key, download_path)
 
-    return get_human_readable_json(download_path)
+    return download_path
 
 
 def get_human_readable_json(s3_file):
@@ -93,10 +112,10 @@ def filter_events(cloudtrail_records, event_name):
     return filtered_events
 
 
-def apply_ec2_tagging(cloudtrail_events):
-    """ Search in filtered events, ec2 instances to apply tagging """
+def filter_ec2_instances(cloudtrail_events):
+    """ Search in filtered events, ec2 instances to apply tags to """
 
-    total = 0
+    targeted_instances = []
 
     for event in cloudtrail_events:
         stack_owner = event.get("userIdentity", {}).get("userName", {})
@@ -105,37 +124,44 @@ def apply_ec2_tagging(cloudtrail_events):
             "responseElements", {}).get("instancesSet", {}).get("items")
 
         if requested_instances:
-            total += tag_instances(
-                requested_instances, stack_owner, stack_owner_arn
-            )
+            target_instance = {
+                "owner": stack_owner,
+                "owner_arn": stack_owner_arn,
+                "instances": [
+                    i.get("instanceId", "") for i in requested_instances
+                ]
+            }
+            targeted_instances.append(target_instance)
 
-    return total
+    return targeted_instances
 
 
-def tag_instances(requested_instances, stack_owner, stack_owner_arn):
-    """ Apply the tag to the EC2 instance """
+def tag_instances(payload):
+    """
+    Apply the tags to the EC2 instances with a payload like:
+    [
+        {
+            "instances": ['instance-id', ...],
+            "owner": 'stack_owner'
+            "owner_arn": 'stack_owner_arn'
+        },
+        ...
+    ]
+    """
 
-    requested_instances = requested_instances or []
+    payload = payload or []
 
     tagged_resources_count = 0
     ec2 = boto3.client('ec2')
-    instances_ids = []
 
-    for requested_instance in requested_instances:
-        instance_id = requested_instance.get("instanceId", "")
-        instances_ids.append(instance_id)
-        tagged_resources_count += 1
-        print("instance_id: ", instance_id)
-
-    if not tagged_resources_count:
-        return tagged_resources_count
-
-    ec2.create_tags(
-        Resources=instances_ids,
-        Tags=[
-            {'Key': 'StackOwner', 'Value': stack_owner},
-            {'Key': 'StackOwnerARN', 'Value': stack_owner_arn}
-        ]
-    )
+    for event in payload:
+        ec2.create_tags(
+            Resources=event.get("instances", []),
+            Tags=[
+                {'Key': 'StackOwner', 'Value': event.get("owner")},
+                {'Key': 'StackOwnerARN', 'Value': event.get("owner_arn")}
+            ]
+        )
+        tagged_resources_count += len(event.get("instances", []))
 
     return tagged_resources_count
